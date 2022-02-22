@@ -22,7 +22,7 @@
                     <form action="MisesionCTO?accion=validar" method="POST" class="col-12">
                         <div class="foirm-goup text-center">
                             <p>
-                                Bienvenido al sistema de Acceso
+                                Bienvenido al sistema
                             </p>
                         </div>
                         <div class="form-group">
