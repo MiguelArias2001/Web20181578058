@@ -1,0 +1,167 @@
+@startuml
+package Interfaces
+{
+    interface Obligacion
+    {
+        +create(Objeto): boolean
+        +read(Objeto): ProductoDTO
+        +readall(): List<ProductoDTO>
+        +update(Objeto): boolean
+        +delete(Objeto): boolean
+    }
+}
+
+package Conecciones
+{
+    class ConexionMySQL
+    {
+        +instance: ConexionMySQL
+        -cnn: Connection
+        -driver: String
+        -url: String
+        -user: String
+        -pss: String
+        -nom_bd: String
+
+        -ConexionMySQL()
+        +synchronized getInstance(): ConexionMySQL
+        +cerrarConexion(): void
+    }
+}
+
+package Modelo
+{
+    class ProductoDTO
+    {
+        -id_prod: int
+        -Nombre: string
+        -Descripcion: string
+        -und: int
+        -valor: int
+
+        +void PoductoDTO()
+        +void PoductoDTO(int, string, string, int, int)
+        +void PoductoDTO(string, string, int, int)
+
+        +getId_prod(): int
+        +getNombre(): string
+        +getDescripcion(): string
+        +getUnd(): int
+        +getValor(): int
+
+        +setId_prod(int): void
+        +setNombre(string): void
+        +setDescripcion(string): void
+        +setUnd(int): void
+        +setValor(int): void
+    }
+
+    class ProductoDAO
+    {
+        -SQL_CREATE: string
+        -SQL_READ: string
+        -SQL_UPDATE: string
+        -SQL_DELETE: string
+        -SQL_READALL: string
+        -con: ConexionMySQL
+
+        +ProductoDAO()
+    }
+
+    class UsuarioDTO
+    {
+        -ID: int
+        -Pri_Nombre: string
+        -Seg_Nombre: string
+        -Pri_Apellido: string
+        -Seg_Apellido: string
+        -Identificacion: int
+        -Correo: string
+        -Clave: string
+        -Sexo: char
+        -Fecha_nac: string
+        -Estado: boolean
+
+        +UsuarioDTO()
+        +UsuarioDTO(int, string, string, string, string, int, string, string, char[1], string, Boolean)
+        +UsuarioDTO(string, string, string, string, int, string, string, char[1], string, Boolean) 
+
+        +getID(): int
+        +getPri_Nombre(): string
+        +getSeg_Nombre(): string
+        +getPri_Apellido(): string
+        +getSeg_Apellido(): string
+        +getIdentificacion(): int
+        +getCorreo(): string
+        +getClave(): string
+        +getSexo(): char
+        +getFecha_nac(): string
+        +getEstado(): boolean
+
+        +setID(int): void
+        +setPri_Nombre(string): void
+        +setSeg_Nombre(string): void
+        +setPri_Apellido(string): void
+        +setSeg_Apellido(string): void
+        +setIdentificacion(int): void
+        +setCorreo(string): void
+        +setClave(string): void
+        +setSexo(char): void
+        +setFecha_nac(string): void
+        +setEstado(boolean): void
+    }
+
+    class UsuarioDAO
+    {
+        -SQL_CREATE: string
+        -SQL_READ: string
+        -SQL_UPDATE: string
+        -SQL_DELETE: string
+        -SQL_READALL: string
+        -con: ConexionMySQL
+
+        +UsuarioDAO()
+    }
+} 
+
+package controlador
+{
+    class ProductoCTL
+    {
+        -objFCD: Facade
+
+        #processRequest(Request, HTTPServletResponse): void
+        #doGET(Request, HTTPServletResponse): void
+        #doPOST(Request, HTTPServletResponse): void
+    }
+
+    class UsuarioCTL
+    {
+        -objFCD: Facade
+
+        #processRequest(Request, HTTPServletResponse): void
+        #doGET(Request, HTTPServletResponse): void
+        #doPOST(Request, HTTPServletResponse): void
+    }
+
+    class Facade
+    {
+        +objPDAO: ProductoDAO
+        +objUDAO: UsuarioDAO
+
+        +Facade()
+        +ListarProductos(): List<ProductoDTO>
+        +ListarUsuarios(): List<UsuarioDTO>
+    }
+
+}
+
+UsuarioDAO *-- UsuarioDTO
+ProductoDAO *-- ProductoDTO
+Obligacion <|.down "Implements" UsuarioDAO
+Obligacion <|.down "Implements" ProductoDAO
+UsuarioDAO *-left ConexionMySQL
+ProductoDAO *-left ConexionMySQL
+ConexionMySQL <-- ConexionMySQL
+
+@enduml
