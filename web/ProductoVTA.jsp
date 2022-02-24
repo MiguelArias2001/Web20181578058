@@ -37,9 +37,11 @@
                         <td>${objP.getUnd()}</td>
                         <td>${objP.getValor()}</td>
                         <td>
-                            <a type="button" class="btn btn-outline-primary">Editar</a>
-                            <a type="button" class="btn btn-outline-danger" href="ProductoCTL?accion=eliminar&id=${objP.getId_prod()}">Eliminar</a>
-                            <a type="button" class="btn btn-outline-success">Ver</a>
+                            <div class="btn-group" role="group">
+                                <a type="button" class="btn btn-outline-primary">Editar</a>
+                                <a type="button" class="btn btn-outline-danger" href="ProductoCTL?accion=eliminar&id=${objP.getId_prod()}">Eliminar</a>
+                                <a type="button" class="btn btn-outline-success">Ver</a>
+                            </div>                            
                         </td>
                     </tr>
                 </c:forEach>

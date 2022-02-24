@@ -31,10 +31,30 @@ public class UsuarioCTL extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Facade fcd = new Facade();
-        List<UsuarioDTO> lista = fcd.ListarUsuarios();
-        request.setAttribute("Lista_Usuarios", lista); //objeto clave valor
-        request.getRequestDispatcher("UsuarioVTA.jsp").forward(request, response);
-        System.out.println(lista.get(0).getPri_Nombre());
+        String accion = request.getParameter("accion");
+        switch(accion)
+        {
+            case "listar":
+            {
+                List<UsuarioDTO> lista = fcd.ListarUsuarios();
+                request.setAttribute("Lista_Usuarios", lista); //objeto clave valor
+                request.getRequestDispatcher("UsuarioVTA.jsp").forward(request, response);             
+            }
+            
+            case "eliminar":
+            {
+                int id = Integer.parseInt(request.getParameter("id")) ;
+                UsuarioDTO elm = new UsuarioDTO();
+                elm.setID(id);
+                boolean s = fcd.borrar(elm);
+                if(s)
+                {
+                    request.getRequestDispatcher("UsuarioCTL?accion=listar").forward(request, response);                    
+                }
+            }
+        }        
+
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

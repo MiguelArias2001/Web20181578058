@@ -25,7 +25,7 @@ public class UsuarioDAO implements Obligacion <UsuarioDTO>
     private static final String SQL_CREATE = "INSERT INTO tb_usuario (nombre1,nombre2,apellido1,apellido2,n_identificacion,correo,clave,sexo,fecha_nac,estado) VALUES(?,?,?,?,?,?,?,?,?,?) ", 
                    SQL_READ = "SELECT * FROM tb_usuario WHERE id = ? ", 
                    SQL_UPDATE = "UPDATE FROM tb_usuario SET ", 
-                   SQL_DELETE = "DELETE FROM tb_usuario EHERE id = ? ", 
+                   SQL_DELETE = "DELETE FROM tb_usuario WHERE id = ? ", 
                    SQL_READALL = "SELECT * FROM tb_usuario ",
                    SQL_VALIDAR = "SELECT * FROM tb_usuario WHERE correo = ? AND clave = ? ";
     private ConexionMySQL con = ConexionMySQL.getInstance();
@@ -84,7 +84,27 @@ public class UsuarioDAO implements Obligacion <UsuarioDTO>
 
     @Override
     public Boolean delete(UsuarioDTO pdto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement ps;
+            
+        try 
+        {
+            ps = con.getCnn().prepareStatement(SQL_DELETE);
+            ps.setInt(1, pdto.getID());
+            if(ps.executeUpdate() > 0)
+            {
+                return true;
+            }            
+        } 
+        catch (SQLException ex) 
+        {
+            System.out.println("Error al borrar el Usuario "+ex.getMessage());
+        }
+        finally
+        {
+            con.cerrarConexion();
+        }
+        
+        return false;
     }
     
     public UsuarioDTO validar (UsuarioDTO pdto){

@@ -47,4 +47,11 @@ public class Facade
         p.delete(elim);
         return true;
     }
+    
+    public boolean borrar(UsuarioDTO elim)
+    {
+        UsuarioDAO u = new UsuarioDAO();
+        u.delete(elim);
+        return true;
+    }
 }
